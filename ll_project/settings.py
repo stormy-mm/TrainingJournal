@@ -12,9 +12,6 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 
-from django.conf.global_settings import STATIC_ROOT
-from platformshconfig import Config
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-nk3t+@^kt%#%!&2%_ui%d7h(8au#jxh_@2)ak3j_mu3(vp=g=4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -82,7 +79,7 @@ WSGI_APPLICATION = 'll_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / '../data/db.sqlite3',
     }
 }
 
@@ -129,24 +126,24 @@ LOGOUT_REDIRECT_URL = "learning_logs:index"
 LOGIN_URL = 'accounts:login'
 
 
-config = Config()
-if config.is_valid_platform():
-    ALLOWED_HOSTS.append('.platformsh.site')
-
-    if config.appDir:
-        STATIC_ROOT = Path(config.appDir) / "static"
-    if config.projectEntropy:
-        SECRET_KEY = config.projectEntropy
-
-    if not config.in_build():
-        db_settings = config.credentials('database')
-        DATABASES = {
-            "default": {
-                "ENGINE": 'django.db.backends.postgresql',
-                "NAME": db_settings['path'],
-                "USER": db_settings['username'],
-                "PASSWORD": db_settings['password'],
-                "HOST": db_settings['host'],
-                "PORT": db_settings['port'],
-            }
-        }
+# config = Config()
+# if config.is_valid_platform():
+#     ALLOWED_HOSTS.append('.platformsh.site')
+#
+#     if config.appDir:
+#         STATIC_ROOT = Path(config.appDir) / "static"
+#     if config.projectEntropy:
+#         SECRET_KEY = config.projectEntropy
+#
+#     if not config.in_build():
+#         db_settings = config.credentials('database')
+#         DATABASES = {
+#             "default": {
+#                 "ENGINE": 'django.db.backends.postgresql',
+#                 "NAME": db_settings['path'],
+#                 "USER": db_settings['username'],
+#                 "PASSWORD": db_settings['password'],
+#                 "HOST": db_settings['host'],
+#                 "PORT": db_settings['port'],
+#             }
+#         }
